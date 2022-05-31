@@ -1,0 +1,533 @@
+repeat wait() until game:IsLoaded()
+  print("Loaded Successfuly..Check game")
+game:GetService("StarterGui"):SetCore("SendNotification",{
+	Title = "Random Hub", -- Required
+	Text = "Check Game...", -- Required
+	Icon = "http://www.roblox.com/asset/?id=7560431921" -- Optional
+})
+
+wait(.1)
+
+game:GetService("StarterGui"):SetCore("SendNotification",{
+	Title = "Random Hub", -- Required
+	Text = "Reaper 2 | Load Script...", -- Required
+	Icon = "http://www.roblox.com/asset/?id=7560431921" -- Optional
+})
+wait(.5)
+
+
+--table
+local mobs = {}
+for _,v in pairs(game:GetService("Workspace").Living:GetChildren()) do -- LOOPS THROUGH ALL MOBS
+      insert = true -- VALUE TO CHECK THE MOB
+      if v:IsA("Model") and v:FindFirstChild("Humanoid") and not v:FindFirstChild("Leaning") then
+      for _,v2 in pairs(mobs) do if v2 == v.Name then insert = false end end -- CHECKS IF MOB IS ALREADY IN THE TABLE
+      if insert then table.insert(mobs, v.Name) end -- IF THE MOB ISNT INSERTED THEN INSERT IT
+  end
+end
+
+
+local players = {}
+for _,v in pairs(game:GetService("Workspace").Living:GetChildren()) do -- LOOPS THROUGH ALL MOBS
+      insert = true -- VALUE TO CHECK THE MOB
+      if v:IsA("Model") and v:FindFirstChild("Humanoid") and  v:FindFirstChild("Leaning") then
+      for _,v2 in pairs(players) do if v2 == v.Name then insert = false end end -- CHECKS IF MOB IS ALREADY IN THE TABLE
+      if insert then table.insert(players, v.Name) end -- IF THE MOB ISNT INSERTED THEN INSERT IT
+  end
+end
+
+
+local npcs = {}
+for _,v in pairs(game:GetService("Workspace").NPCs:GetChildren()) do -- LOOPS THROUGH ALL MOBS
+      insert = true -- VALUE TO CHECK THE MOB
+      if v:IsA("Model") and v:FindFirstChild("Humanoid") then
+      for _,v2 in pairs(npcs) do if v2 == v.Name then insert = false end end -- CHECKS IF MOB IS ALREADY IN THE TABLE
+      if insert then table.insert(npcs, v.Name) end -- IF THE MOB ISNT INSERTED THEN INSERT IT
+  end
+end
+
+local places = {}
+ for i,v in pairs(game:GetService("Workspace").Ambience:GetChildren()) do
+  table.insert(places,v.Name)
+ end
+local anticheat
+anticheat = hookmetamethod(game, "__index", newcclosure(function(...)
+    local self, k = ...
+    
+    if not checkcaller() and k == "WalkSpeed" and self.Name == "Humanoid" and self:IsA("Humanoid") then
+        return 16;
+    elseif not checkcaller() and k == "JumpPower" and self.Name == "Humanoid" and self:IsA("Humanoid") then
+        return 50;
+    elseif not checkcaller() and k == "Gravity" and self.Name == "Workspace" then
+        return 196.2;
+    end
+    
+    return anticheat(...)
+end))
+
+local Plr = game.Players.LocalPlayer
+
+local VirtualInputManager = game:GetService("VirtualInputManager")
+
+
+-- Part of Anti Cheat Bypass
+local antikick
+antikick = hookmetamethod(game, "__namecall", function(...)
+    local self, k = ...
+
+    if not checkcaller() and self == Plr and k == "Kick" then
+        return;
+    end
+    
+    return antikick(...)
+end)
+
+
+
+
+  local DiscordLib = loadstring(game:HttpGet"https://raw.githubusercontent.com/dawid-scripts/UI-Libs/main/discord%20lib.txt")()
+
+  local win = DiscordLib:Window("Reaper 2 - Random Hub")
+  
+  DiscordLib:Notification("Before Use! - SexLioKSlave#3321", "Random Hub ON TOP! - Excute The Script At Main Game | Not Lobby", "amogus , it's true wdym")
+
+
+  local serv = win:Server("AutoFarm", "Made By SexLiokSlave - Thanks For Using!")
+
+  local drops = serv:Channel("NpcsFarm")
+    
+  local mob = nil 
+local drop1 = drops:Dropdown("Select Mob:",mobs, function(t)
+  mob = t
+  end)
+  
+  local player = nil 
+  local drop = drops:Dropdown("Select Player:",players, function(t)
+    player = t
+    end)
+    
+
+   
+
+
+  local Distance
+    local sldr =
+    drops:Slider(
+    "Distance Farm:",
+    0,
+    20,
+    1,
+    function(t)
+    Distance = CFrame.Angles(math.rad(-90), 0, 0) + Vector3.new(0, t, 0)
+    end
+)
+
+
+
+
+drops:Toggle(
+    "Start Autofarm Level [W.I.P]",
+    false,
+    function(bool)
+        print(bool)
+        _G.AutoFarm_Level = bool
+        local function checklevel()
+          local Level = (game:GetService("Players").LocalPlayer.PlayerGui.HUD.BarsBackground.Experience.LevelBar.LevelTtitle.Text:gsub(": LEVEL", ""))
+          Level = tonumber(Level)
+
+            if Level == 1 or Level <= 4 then
+              MON = "Flaming Hollow"
+              MOBNAME = "GQuake"
+              QUESTNAME = "Expedition"
+              QUESTGUI = "Expedition"
+            elseif Level == 5 or Level <= 9 then
+                MON = "Acid Hollow"
+                MOBNAME = "windatbread"
+                QUESTNAME = "Acid Cleanse"
+                QUESTGUI = "Acid Cleanse"
+                
+            end
+        end
+    
+        
+
+     
+        
+    
+    
+    
+    
+        spawn(function()
+            game:GetService("RunService").Heartbeat:Connect(function()
+                if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") and _G.AutoFarm_Level then
+                    setfflag("HumanoidParallelRemoveNoPhysics", "False")
+                    setfflag("HumanoidParallelRemoveNoPhysicsNoSimulate2", "False")
+                    game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(11)
+                end
+            end)
+        end)
+    
+    
+
+    
+    spawn(function()
+        while wait() do
+            if _G.AutoFarm_Level then
+                pcall(function()
+                    checklevel()
+        
+                    if not game:GetService("Players").LocalPlayer.PlayerGui.HUD.QuestsFrame2:FindFirstChild(QUESTGUI) then
+    
+                   --take quest
+                 wait(.5)
+                 local args = {
+                  [1] = QUESTNAME,
+                  [2] = workspace.NPCs[MOBNAME]
+                }
+                
+                game:GetService("ReplicatedStorage").Remotes.TakeQuest:FireServer(unpack(args))
+                
+                    
+                            else
+     if  game:GetService("Players").LocalPlayer.PlayerGui.HUD.QuestsFrame2:FindFirstChild(QUESTGUI) then
+
+        for i, v in pairs(game:GetService("Workspace").Living:GetChildren()) do
+            if v.Name == MON and v:FindFirstChild('HumanoidRootPart') then
+                        repeat 
+              wait()
+                    game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame  = 
+                    v:WaitForChild("HumanoidRootPart").CFrame * Distance
+                                    
+                                    until v.Humanoid.Health == 0     or not game:GetService("Players").LocalPlayer.PlayerGui.HUD.QuestsFrame2:FindFirstChild(QUESTGUI) or _G.AutoFarm_Level == false
+                                end
+                            end
+                        end
+                    end
+                end)
+            end
+        end
+        end)
+      end
+)
+
+
+
+
+drops:Toggle(
+    "Start AutoFarm Selected Mob",
+    false,
+    function(bool)
+        print(bool)
+        print("Start Farming")
+        getgenv().Level = bool
+        while getgenv().Level == true do
+            task.wait()
+            if not Level then
+                break
+            end
+    
+                for i, v in pairs(game:GetService("Workspace").Living:GetChildren()) do
+                    if v.Name == mob and game.Players.LocalPlayer.Character and Level then
+                                repeat 
+                            task.wait()
+                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame  = 
+                            v.HumanoidRootPart.CFrame * Distance
+
+                                --m1 HERE
+                            task.wait()
+                            if not Level then
+                                break
+                            end
+                    until 
+            v.Humanoid.Health <= 0 or
+            Level == false
+                    end
+                end
+            end
+      end
+)
+
+
+drops:Toggle(
+    "Start AutoFarm Selected Player",
+    false,
+    function(bool)
+        print(bool)
+        print("Start Farming")
+    getgenv().Level = bool
+    while getgenv().Level == true do
+        task.wait()
+        if not Level then
+            break
+        end
+
+            for i, v in pairs(game:GetService("Workspace").Living:GetChildren()) do
+                if v.Name == player and game.Players.LocalPlayer.Character and Level then
+                            repeat 
+                        task.wait()
+                        game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame  = 
+                            v.HumanoidRootPart.CFrame * Distance
+
+                        task.wait()
+                        if not Level then
+                            break
+                        end
+                until 
+        v.Humanoid.Health <= 0 or
+        Level == false
+                end
+            end
+        end
+      end
+)
+
+
+drops:Toggle(
+    "Auto M1",
+    false,
+    function(bool)
+        print(bool)
+        print("Start Farming")
+        getgenv().M = bool
+        spawn(function()
+        while getgenv().M == true do
+            task.wait()
+            if not M then
+                break
+            end
+            game:GetService("ReplicatedStorage").Remotes.Input:FireServer(
+              {["inputType"] = Enum.UserInputType.MouseButton1, ["keyCode"] = Enum.KeyCode.Unknown}
+          )
+                            if not M then
+                                break
+                            end
+                    end
+              end)
+      end
+)
+
+drops:Toggle(
+    "Auto Skills R T Y",
+    false,
+    function(bool)
+        print(bool)
+        print("Start Farming")
+        getgenv().E = bool
+        spawn(function()
+        while getgenv().E == true do
+            task.wait()
+            if not E then
+                break
+            end
+            VirtualInputManager:SendKeyEvent(true, "R", false, game.Players.LocalPlayer)
+            VirtualInputManager:SendKeyEvent(true, "T", false, game.Players.LocalPlayer)
+            VirtualInputManager:SendKeyEvent(true, "Y", false, game.Players.LocalPlayer)
+                            if not E then
+                                break
+                            end
+                    end
+              end)
+      end
+)
+
+
+
+
+
+
+drops:Toggle(
+    "Auto Eat",
+    false,
+    function(bool)
+        print(bool)
+        print("Start Farming")
+        getgenv().Eat = bool
+        spawn(function()
+        while getgenv().Eat == true do
+            task.wait()
+            if not Eat then
+                break
+            end
+          for i,v in pairs(game:GetService("Workspace").Food:GetChildren()) do
+         fireproximityprompt(v.ProximityPrompt) 
+          end
+                            if not Eat then
+                                break
+                            end
+                    end
+              end)
+      end
+)
+
+
+
+
+
+local localplayer = serv:Channel("LocalPlayer")
+
+localplayer:Toggle(
+    "Noclip",
+    false,
+    function(bool)
+local plr = game.Players.LocalPlayer
+-- R6 Noclip
+if plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R6 then
+    getgenv().r6noclip = bool
+                game:GetService("RunService").Stepped:Connect(function()
+if getgenv().r6noclip == true then 
+     game.Players.LocalPlayer.Character.Head.CanCollide = false
+game.Players.LocalPlayer.Character.Torso.CanCollide = false
+game.Players.LocalPlayer.Character["Left Leg"].CanCollide = false
+game.Players.LocalPlayer.Character["Right Leg"].CanCollide = false
+end
+end)
+end
+
+-- R15 Noclip
+if plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R15 then
+    getgenv().r15noclip = bool
+                game:GetService("RunService").Stepped:Connect(function()
+if getgenv().r15noclip == true then 
+    Clip = false
+    if Clip == false and plr.Character ~= nil then
+            for i,v in pairs(plr.Character:GetDescendants()) do
+                if v:IsA("BasePart") and v.CanCollide == true and v.Name ~= floatName then
+                    v.CanCollide = false
+                end
+            end
+    end
+end
+end)
+end
+end
+)
+
+local sldr =
+localplayer:Slider(
+    "Walkspeed: " .. game.Players.LocalPlayer.Character.Humanoid.WalkSpeed,
+    0,
+    500,
+    16,
+    function(t)
+      local gmt = getrawmetatable(game)
+local oldI = gmt.__index
+setreadonly(gmt, false)
+
+local wantedWS = t
+local defaultWS = 16
+
+gmt.__index = newcclosure(function(self,key)
+    if tostring(self) == "Humanoid" and tostring(key) == "WalkSpeed" then
+        self.WalkSpeed = wantedWS
+        return defaultWS
+    end
+    return oldI(self,key)
+end)
+
+    game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = wantedWS
+          end
+)
+
+
+
+
+   
+
+localplayer:Button(
+    "Server Hop",
+    function()
+      local Servers = game.HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Asc&limit=100"))
+      for i,v in pairs(Servers.data) do
+          if v.playing ~= v.maxPlayers then
+              game:GetService('TeleportService'):TeleportToPlaceInstance(game.PlaceId, v.id)
+          end
+      end
+    end)
+
+localplayer:Button(
+    "FE Invisible",
+    function()
+       old = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+       game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1089.32471, -16.6416016, 978.140808, -0.0700896978, 6.19629432e-08, -0.997540712, -1.77814403e-08, 1, 6.33650785e-08, 0.997540712, 2.21789485e-08, -0.0700896978)
+  wait(1)
+  game.Players.LocalPlayer.Character.HumanoidRootPart.RootJoint:Destroy()
+  wait(1)
+  game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = old
+end)
+
+
+
+
+
+local suggest = serv:Channel("Suggestion")
+
+suggest:Textbox(
+    "Suggest Your Idea Here, it's will send into #suggest-webhook!",
+    "Your Ideas here!",
+    true,
+    function(t)
+       
+local url = "https://discord.com/api/webhooks/980397478102855740/wmj7Z4k4kNSWHhKy2PghZt9KTJ8gtSw7GRayN5NlnRxtRNB-9dgp6LQ_x8fjDxF2XzJE"
+   t = t 
+
+
+        local data = {
+          ["username"] = "Suggestion BOT - Random Hub";
+        ["content"] = "**Script Suggestion - A Random Hub | Reaper 2**",
+        ["avatar_url"] = "https://tr.rbxcdn.com/476e2c952ac9ffb9505895a075a2eb4d/768/432/Image/Png",
+        ["embeds"] = {
+            {
+                ["title"] = "**An Player Suggest A Idea For You!**",
+                ["description"] = "**Suggest From Reaper 2 Script: ** " .. "**" .. t .. "**",
+                ["type"] = "rich",
+                ["color"] = tonumber(0x7269da),
+                ["image"] = {
+                    ["url"] = "https://i.ytimg.com/vi/Ek_f1F3KOfY/maxresdefault.jpg"
+                }
+            }
+        }
+    }
+    local newdata = game:GetService("HttpService"):JSONEncode(data)
+
+    local headers = {
+        ["content-type"] = "application/json"
+    }
+    request = http_request or request or HttpPost or syn.request
+    local abcdef = {
+        Url = url,
+        Body = newdata,
+        Method = "POST",
+        Headers = headers
+    }
+    request(abcdef)
+    
+    end
+)
+
+
+suggest:Button(
+    "Discord Invite | Random Hub",
+    function()
+     setclipboard(tostring("https://discord.com/invite/8A7HKsw3cM"))
+     DiscordLib:Notification("Join now!!!11", "Copied!", "Okay nig-!")
+    end
+)
+
+suggest:Label("Creator: SexLiokSlave#3321")
+
+
+local tp = serv:Channel("Teleport")
+    
+
+local drop1 = tp:Dropdown("Select Place:",places, function(t)
+
+    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Ambience[t].CFrame
+    end)
+
+    local npc = nil 
+    local drop = tp:Dropdown("Select NPC:",npcs, function(t)
+      npc = t
+      game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = game:GetService("Workspace").NPCs[t].HumanoidRootPart.CFrame
+      end)
+
+      
